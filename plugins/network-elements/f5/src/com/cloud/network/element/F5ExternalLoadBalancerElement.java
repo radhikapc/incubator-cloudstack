@@ -16,6 +16,7 @@
 // under the License.
 package com.cloud.network.element;
 
+import java.lang.Class;
 import java.lang.String;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ import com.cloud.network.Network.Capability;
 import com.cloud.network.Network.Provider;
 import com.cloud.network.Network.Service;
 import com.cloud.network.NetworkExternalLoadBalancerVO;
-import com.cloud.network.NetworkManager;
+import com.cloud.network.NetworkModel;
 import com.cloud.network.NetworkVO;
 import com.cloud.network.Networks.TrafficType;
 import com.cloud.network.PhysicalNetwork;
@@ -92,13 +93,14 @@ import com.cloud.vm.VirtualMachine;
 import com.cloud.vm.VirtualMachineProfile;
 import com.google.gson.Gson;
 
-@Local(value = NetworkElement.class)
+@Local(value = {NetworkElement.class, LoadBalancingServiceProvider.class, 
+		IpDeployer.class})
 public class F5ExternalLoadBalancerElement extends ExternalLoadBalancerDeviceManagerImpl implements LoadBalancingServiceProvider, IpDeployer, F5ExternalLoadBalancerElementService, ExternalLoadBalancerDeviceManager {
 
     private static final Logger s_logger = Logger.getLogger(F5ExternalLoadBalancerElement.class);
 
     @Inject
-    NetworkManager _networkManager;
+    NetworkModel _networkManager;
     @Inject
     ConfigurationManager _configMgr;
     @Inject
@@ -121,7 +123,7 @@ public class F5ExternalLoadBalancerElement extends ExternalLoadBalancerDeviceMan
     ConfigurationDao _configDao;
 
     private boolean canHandle(Network config) {
-        if ((config.getGuestType() != Network.GuestType.Isolated && config.getGuestType() != Network.GuestType.Shared) || config.getTrafficType() != TrafficType.Guest) {
+        if (config.getGuestType() != Network.GuestType.Isolated || config.getTrafficType() != TrafficType.Guest) {
             s_logger.trace("Not handling network with Type  " + config.getGuestType() + " and traffic type " + config.getTrafficType());
             return false;
         }
@@ -262,9 +264,17 @@ public class F5ExternalLoadBalancerElement extends ExternalLoadBalancerDeviceMan
     }
 
     @Override
-    public Map<String, String> getProperties() {
-        return PropertiesUtil.processConfigFile(new String[]
-                { "f5bigip_commands.properties" });
+    public List<Class<?>> getCommands() {
+        List<Class<?>> cmdList = new ArrayList<Class<?>>();
+        cmdList.add(AddExternalLoadBalancerCmd.class);
+        cmdList.add(AddF5LoadBalancerCmd.class);
+        cmdList.add(ConfigureF5LoadBalancerCmd.class);
+        cmdList.add(DeleteExternalLoadBalancerCmd.class);
+        cmdList.add(DeleteF5LoadBalancerCmd.class);
+        cmdList.add(ListExternalLoadBalancersCmd.class);
+        cmdList.add(ListF5LoadBalancerNetworksCmd.class);
+        cmdList.add(ListF5LoadBalancersCmd.class);
+        return cmdList;
     }
 
     @Override

@@ -26,6 +26,7 @@ import org.apache.cloudstack.api.ApiConstants.HostDetails;
 import org.apache.cloudstack.api.ApiConstants.VMDetails;
 import org.apache.cloudstack.api.response.AccountResponse;
 import org.apache.cloudstack.api.response.AsyncJobResponse;
+import org.apache.cloudstack.api.response.DiskOfferingResponse;
 import org.apache.cloudstack.api.response.DomainRouterResponse;
 import org.apache.cloudstack.api.response.EventResponse;
 import org.apache.cloudstack.api.response.HostResponse;
@@ -35,13 +36,17 @@ import org.apache.cloudstack.api.response.ProjectInvitationResponse;
 import org.apache.cloudstack.api.response.ProjectResponse;
 import org.apache.cloudstack.api.response.ResourceTagResponse;
 import org.apache.cloudstack.api.response.SecurityGroupResponse;
+import org.apache.cloudstack.api.response.ServiceOfferingResponse;
 import org.apache.cloudstack.api.response.StoragePoolResponse;
 import org.apache.cloudstack.api.response.UserResponse;
 import org.apache.cloudstack.api.response.UserVmResponse;
 import org.apache.cloudstack.api.response.VolumeResponse;
+import org.apache.cloudstack.api.response.ZoneResponse;
 
 import com.cloud.api.query.dao.AccountJoinDao;
 import com.cloud.api.query.dao.AsyncJobJoinDao;
+import com.cloud.api.query.dao.DataCenterJoinDao;
+import com.cloud.api.query.dao.DiskOfferingJoinDao;
 import com.cloud.api.query.dao.DomainRouterJoinDao;
 import com.cloud.api.query.dao.HostJoinDao;
 import com.cloud.api.query.dao.InstanceGroupJoinDao;
@@ -50,12 +55,15 @@ import com.cloud.api.query.dao.ProjectInvitationJoinDao;
 import com.cloud.api.query.dao.ProjectJoinDao;
 import com.cloud.api.query.dao.ResourceTagJoinDao;
 import com.cloud.api.query.dao.SecurityGroupJoinDao;
+import com.cloud.api.query.dao.ServiceOfferingJoinDao;
 import com.cloud.api.query.dao.StoragePoolJoinDao;
 import com.cloud.api.query.dao.UserAccountJoinDao;
 import com.cloud.api.query.dao.UserVmJoinDao;
 import com.cloud.api.query.dao.VolumeJoinDao;
 import com.cloud.api.query.vo.AccountJoinVO;
 import com.cloud.api.query.vo.AsyncJobJoinVO;
+import com.cloud.api.query.vo.DataCenterJoinVO;
+import com.cloud.api.query.vo.DiskOfferingJoinVO;
 import com.cloud.api.query.vo.DomainRouterJoinVO;
 import com.cloud.api.query.vo.EventJoinVO;
 import com.cloud.api.query.vo.HostJoinVO;
@@ -65,6 +73,7 @@ import com.cloud.api.query.vo.ProjectInvitationJoinVO;
 import com.cloud.api.query.vo.ProjectJoinVO;
 import com.cloud.api.query.vo.ResourceTagJoinVO;
 import com.cloud.api.query.vo.SecurityGroupJoinVO;
+import com.cloud.api.query.vo.ServiceOfferingJoinVO;
 import com.cloud.api.query.vo.StoragePoolJoinVO;
 import com.cloud.api.query.vo.UserAccountJoinVO;
 import com.cloud.api.query.vo.UserVmJoinVO;
@@ -82,6 +91,7 @@ import com.cloud.configuration.Resource.ResourceType;
 import com.cloud.configuration.dao.ConfigurationDao;
 import com.cloud.dc.AccountVlanMapVO;
 import com.cloud.dc.ClusterVO;
+import com.cloud.dc.DataCenter;
 import com.cloud.dc.DataCenterVO;
 import com.cloud.dc.HostPodVO;
 import com.cloud.dc.Vlan;
@@ -111,6 +121,7 @@ import com.cloud.network.Network.Provider;
 import com.cloud.network.Network.Service;
 import com.cloud.network.NetworkDomainVO;
 import com.cloud.network.NetworkManager;
+import com.cloud.network.NetworkModel;
 import com.cloud.network.NetworkProfile;
 import com.cloud.network.NetworkRuleConfigVO;
 import com.cloud.network.NetworkVO;
@@ -162,6 +173,7 @@ import com.cloud.network.vpc.VpcVO;
 import com.cloud.network.vpc.dao.StaticRouteDao;
 import com.cloud.network.vpc.dao.VpcGatewayDao;
 import com.cloud.network.vpc.dao.VpcOfferingDao;
+import com.cloud.offering.DiskOffering;
 import com.cloud.offering.NetworkOffering;
 import com.cloud.offering.ServiceOffering;
 import com.cloud.offerings.NetworkOfferingVO;
@@ -255,6 +267,7 @@ public class ApiDBUtils {
     private static StorageManager _storageMgr;
     private static UserVmManager _userVmMgr;
     private static NetworkManager _networkMgr;
+    private static NetworkModel _networkModel;
     private static StatsCollector _statsCollector;
 
     private static AccountDao _accountDao;
@@ -331,6 +344,9 @@ public class ApiDBUtils {
     private static StoragePoolJoinDao _poolJoinDao;
     private static AccountJoinDao _accountJoinDao;
     private static AsyncJobJoinDao _jobJoinDao;
+    private static DiskOfferingJoinDao _diskOfferingJoinDao;
+    private static ServiceOfferingJoinDao _srvOfferingJoinDao;
+    private static DataCenterJoinDao _dcJoinDao;
 
     private static PhysicalNetworkTrafficTypeDao _physicalNetworkTrafficTypeDao;
     private static PhysicalNetworkServiceProviderDao _physicalNetworkServiceProviderDao;
@@ -350,6 +366,7 @@ public class ApiDBUtils {
         _storageMgr = locator.getManager(StorageManager.class);
         _userVmMgr = locator.getManager(UserVmManager.class);
         _networkMgr = locator.getManager(NetworkManager.class);
+        _networkModel = locator.getManager(NetworkModel.class);
         _configMgr = locator.getManager(ConfigurationService.class);
 
         _accountDao = locator.getDao(AccountDao.class);
@@ -434,6 +451,9 @@ public class ApiDBUtils {
         _vpcOfferingDao = locator.getDao(VpcOfferingDao.class);
         _snapshotPolicyDao = locator.getDao(SnapshotPolicyDao.class);
         _asyncJobDao = locator.getDao(AsyncJobDao.class);
+        _diskOfferingJoinDao = locator.getDao(DiskOfferingJoinDao.class);
+        _srvOfferingJoinDao = locator.getDao(ServiceOfferingJoinDao.class);
+        _dcJoinDao = locator.getDao(DataCenterJoinDao.class);
 
         // Note: stats collector should already have been initialized by this time, otherwise a null instance is returned
         _statsCollector = StatsCollector.getInstance();
@@ -477,7 +497,7 @@ public class ApiDBUtils {
     }
 
     public static Long getPodIdForVlan(long vlanDbId) {
-        return _networkMgr.getPodIdForVlan(vlanDbId);
+        return _networkModel.getPodIdForVlan(vlanDbId);
     }
 
     public static String getVersion() {
@@ -844,11 +864,11 @@ public class ApiDBUtils {
     }
 
     public static Map<Service, Map<Capability, String>> getNetworkCapabilities(long networkId, long zoneId) {
-        return _networkMgr.getNetworkCapabilities(networkId);
+        return _networkModel.getNetworkCapabilities(networkId);
     }
 
     public static long getPublicNetworkIdByZone(long zoneId) {
-        return _networkMgr.getSystemNetworkByZoneAndTrafficType(zoneId, TrafficType.Public).getId();
+        return _networkModel.getSystemNetworkByZoneAndTrafficType(zoneId, TrafficType.Public).getId();
     }
 
     public static Long getVlanNetworkId(long vlanId) {
@@ -878,7 +898,7 @@ public class ApiDBUtils {
     }
 
     public static Long getDedicatedNetworkDomain(long networkId) {
-        return _networkMgr.getDedicatedNetworkDomain(networkId);
+        return _networkModel.getDedicatedNetworkDomain(networkId);
     }
 
     public static float getCpuOverprovisioningFactor() {
@@ -931,25 +951,25 @@ public class ApiDBUtils {
     }
 
     public static Map<Service, Set<Provider>> listNetworkOfferingServices(long networkOfferingId) {
-        return _networkMgr.getNetworkOfferingServiceProvidersMap(networkOfferingId);
+        return _networkModel.getNetworkOfferingServiceProvidersMap(networkOfferingId);
     }
 
     public static List<Service> getElementServices(Provider provider) {
-        return _networkMgr.getElementServices(provider);
+        return _networkModel.getElementServices(provider);
     }
 
     public static List<? extends Provider> getProvidersForService(Service service) {
-        return _networkMgr.listSupportedNetworkServiceProviders(service.getName());
+        return _networkModel.listSupportedNetworkServiceProviders(service.getName());
     }
 
     public static boolean canElementEnableIndividualServices(Provider serviceProvider) {
-        return _networkMgr.canElementEnableIndividualServices(serviceProvider);
+        return _networkModel.canElementEnableIndividualServices(serviceProvider);
     }
 
     public static Pair<Long, Boolean> getDomainNetworkDetails(long networkId) {
         NetworkDomainVO map = _networkDomainDao.getDomainNetworkMapByNetworkId(networkId);
 
-        boolean subdomainAccess = (map.isSubdomainAccess() != null) ? map.isSubdomainAccess() : _networkMgr.getAllowSubdomainAccessGlobal();
+        boolean subdomainAccess = (map.isSubdomainAccess() != null) ? map.isSubdomainAccess() : _networkModel.getAllowSubdomainAccessGlobal();
 
         return new Pair<Long, Boolean>(map.getDomainId(), subdomainAccess);
     }
@@ -976,11 +996,11 @@ public class ApiDBUtils {
     }
 
     public static List<? extends Network> listVpcNetworks(long vpcId) {
-        return _networkMgr.listNetworksByVpc(vpcId);
+        return _networkModel.listNetworksByVpc(vpcId);
     }
 
     public static boolean canUseForDeploy(Network network) {
-        return _networkMgr.canUseForDeploy(network);
+        return _networkModel.canUseForDeploy(network);
     }
 
     public static String getUuid(String resourceId, TaggedResourceType resourceType) {
@@ -1395,5 +1415,29 @@ public class ApiDBUtils {
 
    public static AsyncJobJoinVO newAsyncJobView(AsyncJob e){
        return _jobJoinDao.newAsyncJobView(e);
+   }
+
+   public static DiskOfferingResponse newDiskOfferingResponse(DiskOfferingJoinVO offering) {
+       return _diskOfferingJoinDao.newDiskOfferingResponse(offering);
+   }
+
+   public static DiskOfferingJoinVO newDiskOfferingView(DiskOffering offering){
+       return _diskOfferingJoinDao.newDiskOfferingView(offering);
+   }
+
+   public static ServiceOfferingResponse newServiceOfferingResponse(ServiceOfferingJoinVO offering) {
+       return _srvOfferingJoinDao.newServiceOfferingResponse(offering);
+   }
+
+   public static ServiceOfferingJoinVO newServiceOfferingView(ServiceOffering offering){
+       return _srvOfferingJoinDao.newServiceOfferingView(offering);
+   }
+
+   public static ZoneResponse newDataCenterResponse(DataCenterJoinVO dc, Boolean showCapacities) {
+       return _dcJoinDao.newDataCenterResponse(dc, showCapacities);
+   }
+
+   public static DataCenterJoinVO newDataCenterView(DataCenter dc){
+       return _dcJoinDao.newDataCenterView(dc);
    }
 }

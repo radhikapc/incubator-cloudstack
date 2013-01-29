@@ -306,7 +306,6 @@ CREATE TABLE `cloud`.`network_offerings` (
   `state` char(32) COMMENT 'state of the network offering that has Disabled value by default',
   `guest_type` char(32) COMMENT 'type of guest network that can be shared or isolated',
   `elastic_ip_service` int(1) unsigned NOT NULL DEFAULT 0 COMMENT 'true if the network offering provides elastic ip service',
-  `eip_associate_public_ip` int(1) unsigned NOT NULL DEFAULT 0 COMMENT 'true if public IP is associated with user VM creation by default when EIP service is enabled.',
   `elastic_lb_service` int(1) unsigned NOT NULL DEFAULT 0 COMMENT 'true if the network offering provides elastic lb service',
   `specify_ip_ranges` int(1) unsigned NOT NULL DEFAULT 0 COMMENT 'true if the network offering provides an ability to define ip ranges',
   `inline` int(1) unsigned NOT NULL DEFAULT 0 COMMENT 'Is this network offering LB provider is in inline mode',
@@ -1333,6 +1332,7 @@ CREATE TABLE `cloud`.`alert` (
   `last_sent` DATETIME NULL COMMENT 'Last time the alert was sent',
   `resolved` DATETIME NULL COMMENT 'when the alert status was resolved (available memory no longer at critical level, etc.)',
   PRIMARY KEY  (`id`),
+  INDEX `last_sent` (`last_sent` DESC),
   CONSTRAINT `uc_alert__uuid` UNIQUE (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

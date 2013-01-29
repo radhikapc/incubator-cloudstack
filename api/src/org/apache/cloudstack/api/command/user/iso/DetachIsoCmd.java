@@ -21,6 +21,7 @@ import org.apache.cloudstack.api.response.TemplateResponse;
 import org.apache.log4j.Logger;
 
 import org.apache.cloudstack.api.ApiConstants;
+import org.apache.cloudstack.api.ApiErrorCode;
 import org.apache.cloudstack.api.BaseAsyncCmd;
 import org.apache.cloudstack.api.BaseCmd;
 import org.apache.cloudstack.api.APICommand;
@@ -41,7 +42,7 @@ public class DetachIsoCmd extends BaseAsyncCmd {
     //////////////// API parameters /////////////////////
     /////////////////////////////////////////////////////
 
-    @Parameter(name=ApiConstants.VIRTUAL_MACHINE_ID, type=CommandType.UUID, entityType = TemplateResponse.class,
+    @Parameter(name=ApiConstants.VIRTUAL_MACHINE_ID, type=CommandType.UUID, entityType = UserVmResponse.class,
             required=true, description="The ID of the virtual machine")
     private Long virtualMachineId;
 
@@ -91,7 +92,7 @@ public class DetachIsoCmd extends BaseAsyncCmd {
             response.setResponseName(DeployVMCmd.getResultObjectName());
             this.setResponseObject(response);
         } else {
-            throw new ServerApiException(BaseCmd.INTERNAL_ERROR, "Failed to detach iso");
+            throw new ServerApiException(ApiErrorCode.INTERNAL_ERROR, "Failed to detach iso");
         }
     }
 }

@@ -27,6 +27,9 @@ import com.cloud.alert.dao.AlertDaoImpl;
 import com.cloud.api.query.QueryManagerImpl;
 import com.cloud.api.query.dao.AccountJoinDaoImpl;
 import com.cloud.api.query.dao.AsyncJobJoinDaoImpl;
+import com.cloud.api.query.dao.DataCenterJoinDaoImpl;
+import com.cloud.api.query.dao.DiskOfferingJoinDaoImpl;
+import com.cloud.api.query.dao.ServiceOfferingJoinDaoImpl;
 import com.cloud.api.query.dao.DomainRouterJoinDaoImpl;
 import com.cloud.api.query.dao.InstanceGroupJoinDaoImpl;
 import com.cloud.api.query.dao.ProjectAccountJoinDaoImpl;
@@ -89,6 +92,8 @@ import com.cloud.maint.UpgradeManagerImpl;
 import com.cloud.maint.dao.AgentUpgradeDaoImpl;
 import com.cloud.network.ExternalLoadBalancerUsageManagerImpl;
 import com.cloud.network.NetworkManagerImpl;
+import com.cloud.network.NetworkModelImpl;
+import com.cloud.network.NetworkServiceImpl;
 import com.cloud.network.StorageNetworkManagerImpl;
 import com.cloud.network.as.AutoScaleManagerImpl;
 import com.cloud.network.as.dao.AutoScalePolicyConditionMapDaoImpl;
@@ -390,6 +395,9 @@ public class DefaultComponentLibrary extends ComponentLibraryBase implements Com
         addDao("AccountJoinDao", AccountJoinDaoImpl.class);
         addDao("AsyncJobJoinDao", AsyncJobJoinDaoImpl.class);
         addDao("StoragePoolJoinDao", StoragePoolJoinDaoImpl.class);
+        addDao("DiskOfferingJoinDao", DiskOfferingJoinDaoImpl.class);
+        addDao("ServiceOfferingJoinDao", ServiceOfferingJoinDaoImpl.class);
+        addDao("DataCenterJoinDao", DataCenterJoinDaoImpl.class);
     }
 
     @Override
@@ -413,7 +421,9 @@ public class DefaultComponentLibrary extends ComponentLibraryBase implements Com
         addManager("account manager", AccountManagerImpl.class);
         addManager("domain manager", DomainManagerImpl.class);
         addManager("resource limit manager", ResourceLimitManagerImpl.class);
+        addManager("network service", NetworkServiceImpl.class);
         addManager("network manager", NetworkManagerImpl.class);
+        addManager("network model", NetworkModelImpl.class);
         addManager("download manager", DownloadMonitorImpl.class);
         addManager("upload manager", UploadMonitorImpl.class);
         addManager("keystore manager", KeystoreManagerImpl.class);
