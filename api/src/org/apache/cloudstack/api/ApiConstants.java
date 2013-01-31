@@ -438,6 +438,8 @@ public class ApiConstants {
     public static final String AUTOSCALE_USER_ID = "autoscaleuserid";
     public static final String BAREMETAL_DISCOVER_NAME = "baremetaldiscovername";
     public static final String UCS_DN = "ucsdn";
+    public static final String IMAGE_STORE_UUID = "imagestoreuuid";
+
 
     public enum HostDetails {
         all, capacity, events, stats, min;
