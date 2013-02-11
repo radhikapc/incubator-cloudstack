@@ -29,8 +29,73 @@
     available. With the addition of persistent network, you will have the ability to create a
     network in &PRODUCT; which can run even when no VMs are running. Additionally, you can deploy
     physical devices on that network.</para>
-  <para>The main advantage of having a persistent network is that you can create a VPC with a tier
+  <para>One of the advantage of having a persistent network is that you can create a VPC with a tier
     consisting of only physical devices. For example, you might create a VPC for a three-tier
     application and deploy VMs for Web and Application tier, and use physical machines for the
-    Database tier.</para>
+    Database tier. Another use case is that if you are providing services by using physical
+    hardware, you can define the network as persistent and therefore even if all its VMs are
+    destroyed the services will not be discontinued. Previously in &PRODUCT;, if all the VM’s are
+    destroyed in a network, the services will no longer be available because the network is shut
+    down.</para>
+  <section id="persistent-network-consideration">
+    <title>Persistent Network Consideration</title>
+    <itemizedlist>
+      <listitem>
+        <para>Persistent networks are supported only on isolated networks.</para>
+      </listitem>
+      <listitem>
+        <para>All default network offerings are non-persistent.</para>
+      </listitem>
+      <listitem>
+        <para>A network offering cannot be editable because changing it affects the behavior of the
+          existing networks that were created using this network offering.</para>
+      </listitem>
+      <listitem>
+        <para>When you create a guest network, the network offering that you select defines the
+          network persistence. This in turn depends on whether persistent network is enabled in the
+          selected network offering. </para>
+      </listitem>
+      <listitem>
+        <para>An existing network can be made persistent by changing its network offering to an
+          offering that has the Persistent option enabled. While setting this property, even if the
+          network have no running VMs, the network is provisioned. </para>
+      </listitem>
+      <listitem>
+        <para>An existing network can be made non-persistent by changing its network offering to an
+          offering that has the Persistent option disabled. If the network has no running VMs,
+          during the next network garbage collection run the network is shut down.</para>
+      </listitem>
+      <listitem>
+        <para>When the last VM on a network is destroyed, the network garbage collector checks if
+          the network offering associated with the network is persistent, and shut down the network
+          only if it is non-persistent.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section id="set-up-persistent-network">
+    <title>Creating a Persistent Guest Network</title>
+    <para>To create a persistent network, perform the following:</para>
+    <orderedlist>
+      <listitem>
+        <para>Create a network offering with Persistent option enabled.</para>
+        <para>See <xref linkend="creating-network-offerings"/>.</para>
+      </listitem>
+      <listitem>
+        <para>Select Network from the left navigation pane.</para>
+      </listitem>
+      <listitem>
+        <para>Select the guest network that you want to offer this network service to.</para>
+      </listitem>
+      <listitem>
+        <para>Click the Edit button.</para>
+      </listitem>
+      <listitem>
+        <para>From the Network Offering drop-down, select the persistent network offering you have
+          just created.</para>
+      </listitem>
+      <listitem>
+        <para>Click OK.</para>
+      </listitem>
+    </orderedlist>
+  </section>
 </section>
