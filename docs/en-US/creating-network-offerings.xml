@@ -53,7 +53,7 @@
             second.</para>
         </listitem>
         <listitem>
-          <para><emphasis role="bold">Guest Type</emphasis>.Choose whether the guest network is
+         <para><emphasis role="bold">Guest Type</emphasis>.Choose whether the guest network is
             isolated or shared. </para>
           <para condition="admin">For a description of these terms, see <xref
               linkend="about-virtual-networks"/>.</para>
