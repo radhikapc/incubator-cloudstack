@@ -53,22 +53,29 @@
             second.</para>
         </listitem>
         <listitem>
-          <para><emphasis role="bold">Guest Type</emphasis>. Choose whether the guest network is
-            isolated or shared. For a description of these terms, see <xref
-              linkend="about-virtual-networks"/>. </para>
+          <para><emphasis role="bold">Guest Type</emphasis>.Choose whether the guest network is
+            isolated or shared. </para>
+          <para condition="admin">For a description of these terms, see <xref
+              linkend="about-virtual-networks"/>.</para>
+          <para condition="install">For a description of these terms, see the Administration Guide.
+          </para>
         </listitem>
         <listitem>
-          <para><emphasis role="bold">Persistent</emphasis>. Choose whether the guest network is
-            persistent. For a description of these terms, see <xref linkend="persistent-network"
-            />.</para>
+          <para><emphasis role="bold">Persistent</emphasis>. Indicate whether the guest network is
+            persistent or not. The network that you can provision without having to deploy a VM on
+            it is termed persistent network. For more information, see <xref
+              linkend="persistent-network"/>.</para>
         </listitem>
         <listitem>
           <para><emphasis role="bold">Specify VLAN</emphasis>. (Isolated guest networks only)
             Indicate whether a VLAN should be specified when this offering is used.</para>
         </listitem>
         <listitem>
-          <para><emphasis role="bold">VPC</emphasis>. Indicate whether the guest network is
-            VPC-enabled. For a description of these terms, see <xref linkend="vpc"/>.</para>
+          <para><emphasis role="bold">VPC</emphasis>. This option indicate whether the guest network
+            is Virtual Private Cloud-enabled. A Virtual Private Cloud (VPC) is a private, isolated
+            part of &PRODUCT;. A VPC can have its own virtual network topology that resembles a
+            traditional physical network. For more information on VPC, see <xref linkend="vpc"
+            />.</para>
         </listitem>
         <listitem>
           <para><emphasis role="bold">Supported Services</emphasis>. Select one or more of the
@@ -147,8 +154,10 @@
                 </row>
                 <row>
                   <entry><para>User Data</para></entry>
-                  <entry><para>For more information, see <xref linkend="user-data-and-meta-data"
-                      />.</para></entry>
+                  <entry><para condition="admin">For more information, see <xref
+                        linkend="user-data-and-meta-data"/>.</para>
+                    <para condition="install">For more information, see the Administration
+                      Guide.</para></entry>
                   <entry><para>Not Supported</para></entry>
                   <entry><para>Supported</para></entry>
                 </row>
