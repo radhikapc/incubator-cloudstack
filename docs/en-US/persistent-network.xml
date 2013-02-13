@@ -76,7 +76,8 @@
     <orderedlist>
       <listitem>
         <para>Create a network offering with the Persistent option enabled.</para>
-        <para>See <xref linkend="creating-network-offerings"/>.</para>
+        <para condition="admin">See <xref linkend="creating-network-offerings"/>.</para>
+        <para condition="install">See the Administration Guide.</para>
       </listitem>
       <listitem>
         <para>Select Network from the left navigation pane.</para>
