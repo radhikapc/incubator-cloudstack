@@ -74,8 +74,7 @@
           <para><emphasis role="bold">VPC</emphasis>. This option indicate whether the guest network
             is Virtual Private Cloud-enabled. A Virtual Private Cloud (VPC) is a private, isolated
             part of &PRODUCT;. A VPC can have its own virtual network topology that resembles a
-            traditional physical network. For more information on VPCs, see <xref linkend="vpc"
-            />.</para>
+            traditional physical network. For more information on VPCs, see <xref linkend="vpc"/>.</para>
         </listitem>
         <listitem>
           <para><emphasis role="bold">Supported Services</emphasis>. Select one or more of the
@@ -213,7 +212,7 @@
             mode is on, you can define more than one service on the same public IP.</para>
           <note>
             <para>If StaticNAT is enabled, irrespective of the status of the conserve mode, no port
-              forwarding or load balancing rule can be created for the IP. However, you can add
+              forwarding or load balancing rule can be created for the IP. However, you can add the
               firewall rules by using the createFirewallRule command.</para>
           </note>
         </listitem>
