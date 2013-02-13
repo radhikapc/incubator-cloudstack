@@ -21,27 +21,25 @@
 -->
 <section id="persistent-network">
   <title>Persistent Networks</title>
-  <para>The network that you can provision without having to deploy a VM on it is termed persistent
-    network. A persistent network can be part of a VPC or a non-VPC environment.</para>
-  <para>Previously, a network is only a database entry until the first VM is created on that
-    network. When the first VM is created, a VLAN ID is assigned and the network is provisioned.
-    Also, when the last VM is destroyed, the VLAN ID is released and the network is no longer
-    available. With the addition of persistent network, you will have the ability to create a
-    network in &PRODUCT; which can run even when no VMs are running. Additionally, you can deploy
-    physical devices on that network.</para>
-  <para>One of the advantage of having a persistent network is that you can create a VPC with a tier
+  <para>The network that you can provision without having to deploy any VMs on it is called a
+    persistent network. A persistent network can be part of a VPC or a non-VPC environment.</para>
+  <para>When you create other types of network, a network is only a database entry until the first
+    VM is created on that network. When the first VM is created, a VLAN ID is assigned and the
+    network is provisioned. Also, when the last VM is destroyed, the VLAN ID is released and the
+    network is no longer available. With the addition of persistent network, you will have the
+    ability to create a network in &PRODUCT; in which physical devices can be deployed without
+    having to run any VMs. Additionally, you can deploy physical devices on that network.</para>
+  <para>One of the advantages of having a persistent network is that you can create a VPC with a tier
     consisting of only physical devices. For example, you might create a VPC for a three-tier
-    application and deploy VMs for Web and Application tier, and use physical machines for the
+    application, deploy VMs for Web and Application tier, and use physical machines for the
     Database tier. Another use case is that if you are providing services by using physical
     hardware, you can define the network as persistent and therefore even if all its VMs are
-    destroyed the services will not be discontinued. Previously in &PRODUCT;, if all the VM’s are
-    destroyed in a network, the services will no longer be available because the network is shut
-    down.</para>
+    destroyed the services will not be discontinued.</para>
   <section id="persistent-network-consideration">
-    <title>Persistent Network Consideration</title>
+    <title>Persistent Network Considerations</title>
     <itemizedlist>
       <listitem>
-        <para>Persistent networks are supported only on isolated networks.</para>
+        <para>Persistent network is designed for isolated networks.</para>
       </listitem>
       <listitem>
         <para>All default network offerings are non-persistent.</para>
@@ -58,7 +56,7 @@
       <listitem>
         <para>An existing network can be made persistent by changing its network offering to an
           offering that has the Persistent option enabled. While setting this property, even if the
-          network have no running VMs, the network is provisioned. </para>
+          network has no running VMs, the network is provisioned. </para>
       </listitem>
       <listitem>
         <para>An existing network can be made non-persistent by changing its network offering to an
@@ -67,7 +65,7 @@
       </listitem>
       <listitem>
         <para>When the last VM on a network is destroyed, the network garbage collector checks if
-          the network offering associated with the network is persistent, and shut down the network
+          the network offering associated with the network is persistent, and shuts down the network
           only if it is non-persistent.</para>
       </listitem>
     </itemizedlist>
@@ -77,7 +75,7 @@
     <para>To create a persistent network, perform the following:</para>
     <orderedlist>
       <listitem>
-        <para>Create a network offering with Persistent option enabled.</para>
+        <para>Create a network offering with the Persistent option enabled.</para>
         <para>See <xref linkend="creating-network-offerings"/>.</para>
       </listitem>
       <listitem>
