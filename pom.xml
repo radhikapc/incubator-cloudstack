@@ -163,11 +163,11 @@
     <module>deps/XenServerJava</module>
     <module>plugins</module>
     <module>patches</module>
-    <module>client</module>
-    <module>test</module>
     <module>engine</module>
     <module>framework</module>
-	<module>services</module>
+    <module>services</module>
+    <module>test</module>
+    <module>client</module>
   </modules>
 
   <dependencyManagement>
@@ -361,7 +361,7 @@
               <exclude>**/target/**</exclude>
               <exclude>**/.vagrant</exclude>
               <exclude>build/build.number</exclude>
-              <exclude>console-proxy/js/jquery.js</exclude>
+              <exclude>services/console-proxy/server/js/jquery.js</exclude>
               <exclude>debian/compat</exclude>
               <exclude>debian/control</exclude>
               <exclude>debian/dirs</exclude>
