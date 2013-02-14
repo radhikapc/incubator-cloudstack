@@ -28,11 +28,11 @@
     server is used as the Message-Oriented Middleware (MOM). Every resource, such as user VMs,
     volume, NIC, networks, public IPs, snapshots, and template, is associated with a state machine
     and generates events as part of the state change. So the publishers of events in &PRODUCT; will
-    become that StateListeners associated with the resource. For e.g. UserVMStateListener which is
-    listener for the state changes of user VM's would create event object and post on to the event
-    bus as below. In order for CloudStack be able to generate rich set of events and have clean
-    mechanism to generate events, its important to have state machine associated with every resource
-    that is managed by CloudStack.</para>
+    become that StateListeners associated with the resource. In order for CloudStack be able to
+    generate rich set of events and have clean mechanism to generate events, its important to have
+    state machine associated with every resource that is managed by CloudStack. For example,
+    UserVMStateListener which is the listener for the state changes of user VMs would create event
+    object and post on to the event bus as below:</para>
   <formalpara>
     <title>Use Cases</title>
     <para>The following are some of the use cases:</para>
