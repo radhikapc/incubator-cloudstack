@@ -33,6 +33,7 @@ import com.cloud.storage.secondary.SecondaryStorageVmManager;
 import com.cloud.storage.snapshot.SnapshotManager;
 import com.cloud.template.TemplateManager;
 import com.cloud.vm.UserVmManager;
+import com.cloud.vm.snapshot.VMSnapshotManager;
 
 public enum Config {
 
@@ -179,7 +180,7 @@ public enum Config {
 	MigrateWait("Advanced", AgentManager.class, Integer.class, "migratewait", "3600", "Time (in seconds) to wait for VM migrate finish", null),
 	Workers("Advanced", AgentManager.class, Integer.class, "workers", "5", "Number of worker threads.", null),
 	HAWorkers("Advanced", AgentManager.class, Integer.class, "ha.workers", "5", "Number of ha worker threads.", null),
-	MountParent("Advanced", ManagementServer.class, String.class, "mount.parent", "/var/lib/cloud/management/mnt", "The mount point on the Management Server for Secondary Storage.", null),
+	MountParent("Advanced", ManagementServer.class, String.class, "mount.parent", "/var/cloudstack/mnt", "The mount point on the Management Server for Secondary Storage.", null),
 //	UpgradeURL("Advanced", ManagementServer.class, String.class, "upgrade.url", "http://example.com:8080/client/agent/update.zip", "The upgrade URL is the URL of the management server that agents will connect to in order to automatically upgrade.", null),
 	SystemVMUseLocalStorage("Advanced", ManagementServer.class, Boolean.class, "system.vm.use.local.storage", "false", "Indicates whether to use local storage pools or shared storage pools for system VMs.", null),
     SystemVMAutoReserveCapacity("Advanced", ManagementServer.class, Boolean.class, "system.vm.auto.reserve.capacity", "true", "Indicates whether or not to automatically reserver system VM standby capacity.", null),
@@ -371,8 +372,16 @@ public enum Config {
 
     ApiLimitInterval("Advanced", ManagementServer.class, Integer.class, "api.throttling.interval", "1", "Time interval (in seconds) to reset API count", null),
     ApiLimitMax("Advanced", ManagementServer.class, Integer.class, "api.throttling.max", "25", "Max allowed number of APIs within fixed interval", null),
-    ApiLimitCacheSize("Advanced", ManagementServer.class, Integer.class, "api.throttling.cachesize", "50000", "Account based API count cache size", null);
+    ApiLimitCacheSize("Advanced", ManagementServer.class, Integer.class, "api.throttling.cachesize", "50000", "Account based API count cache size", null),
 
+	
+	// VMSnapshots
+    VMSnapshotMax("Advanced", VMSnapshotManager.class, Integer.class, "vmsnapshot.max", "10", "Maximum vm snapshots for a vm", null),
+    VMSnapshotCreateWait("Advanced", VMSnapshotManager.class, Integer.class, "vmsnapshot.create.wait", "600", "In second, timeout for create vm snapshot", null),
+    VMSnapshotExpungeInterval("Advanced", VMSnapshotManager.class, Integer.class, "vmsnapshot.expunge.interval", "60", "The interval (in seconds) to wait before running the expunge thread.", null),
+    VMSnapshotExpungeWorkers("Advanced", VMSnapshotManager.class, Integer.class, "vmsnapshot.expunge.workers",  "1", "Number of workers performing expunge ", null);
+    
+	
 	private final String _category;
 	private final Class<?> _componentClass;
 	private final Class<?> _type;

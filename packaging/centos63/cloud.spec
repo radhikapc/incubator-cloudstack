@@ -284,7 +284,7 @@ fi
 
 %pre management
 id cloud > /dev/null 2>&1 || /usr/sbin/useradd -M -c "CloudStack unprivileged user" \
-     -r -s /bin/sh -d %{_localstatedir}/cloud/management cloud|| true
+     -r -s /bin/sh -d %{_localstatedir}/cloudstack/management cloud|| true
 
 # set max file descriptors for cloud user to 4096
 sed -i /"cloud hard nofile"/d /etc/security/limits.conf
@@ -300,9 +300,9 @@ if [ "$1" == "1" ] ; then
     /sbin/chkconfig --level 345 cloud-management on > /dev/null 2>&1 || true
 fi
 
-if [ ! -f %{_datadir}/cloud/management/webapps/client/WEB-INF/classes/scripts/scripts/vm/hypervisor/xenserver/vhd-util ] ; then
+if [ ! -f %{_datadir}/cloudstack/management/webapps/client/WEB-INF/classes/scripts/scripts/vm/hypervisor/xenserver/vhd-util ] ; then
     echo Please download vhd-util from http://download.cloud.com.s3.amazonaws.com/tools/vhd-util and put it in 
-    echo %{_datadir}/cloud/management/webapps/client/WEB-INF/classes/scripts/vm/hypervisor/xenserver/
+    echo %{_datadir}/cloudstack/management/webapps/client/WEB-INF/classes/scripts/vm/hypervisor/xenserver/
 fi
 
 #No default permission as the permission setup is complex

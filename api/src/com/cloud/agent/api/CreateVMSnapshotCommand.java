@@ -14,16 +14,29 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-package com.cloud.resource;
+package com.cloud.agent.api;
 
-import com.cloud.utils.component.Adapter;
+import java.util.List;
 
-/**
- * Prepares the network for VM.
- */
-public interface NetworkPreparer extends Adapter {
+import com.cloud.agent.api.to.VolumeTO;
+import com.cloud.vm.VirtualMachine;
+
+public class CreateVMSnapshotCommand extends VMSnapshotBaseCommand {
+
+    public CreateVMSnapshotCommand(String vmName, VMSnapshotTO snapshot, List<VolumeTO> volumeTOs, String guestOSType, VirtualMachine.State vmState) {
+        super(vmName, snapshot, volumeTOs, guestOSType);
+        this.vmState  = vmState;
+    }
+
+    private VirtualMachine.State vmState;
+   
+
+    public VirtualMachine.State getVmState() {
+        return vmState;
+    }
+
+    public void setVmState(VirtualMachine.State vmState) {
+        this.vmState = vmState;
+    }
     
-    String setup(String vnet);
-    
-    void cleanup(String vnet);
 }
