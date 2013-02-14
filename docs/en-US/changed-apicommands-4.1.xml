@@ -41,7 +41,8 @@
             <para>The following request parameters is added: isPersistent.</para>
             <para>This parameter determines if the network or network offering created or listed by
               using this offering are persistent or not.</para>
-          </entry></row>
+          </entry>
+        </row>
         <row>
           <entry>
             <para>addF5LoadBalancer</para>

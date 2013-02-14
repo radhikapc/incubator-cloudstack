@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "cloudstack.ent">
+%BOOK_ENTITIES;
+]>
+
+<!-- Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<section id="event-framework">
+  <title>Event Notification</title>
+  <para>Event notification framework provides a means to publish, and subscribe and unsubscribe to
+    &PRODUCT; events. Event notification is achieved by introducing event bus abstraction in the
+    Management Server. The event bus allows the &PRODUCT;components and extension plug-ins to
+    subscribe to the events by using the Advanced Message Queuing Protocol (AMQP) server. The AMQP
+    server is used as the Message-Oriented Middleware (MOM). Every resource, such as user VMs,
+    volume, NIC, networks, public IPs, snapshots, and template, is associated with a state machine
+    and generates events as part of the state change. So the publishers of events in &PRODUCT; will
+    become that StateListeners associated with the resource. For e.g. UserVMStateListener which is
+    listener for the state changes of user VM's would create event object and post on to the event
+    bus as below. In order for CloudStack be able to generate rich set of events and have clean
+    mechanism to generate events, its important to have state machine associated with every resource
+    that is managed by CloudStack.</para>
+  <formalpara>
+    <title>Use Cases</title>
+    <para>The following are some of the use cases:</para>
+  </formalpara>
+  <itemizedlist>
+    <listitem>
+      <para> Usage or Billing Engines: A thrd 3rd party Cloud Usage solution can implement a plug-in
+        to CloudStack that subscribes to CloudStack events and generates usage data, that is
+        consumed by their usage software</para>
+    </listitem>
+    <listitem>
+      <para>AMQP plugin can put all the events on the a message queue, a AMQP message broker then
+        can provide topic based notification to subscribers</para>
+    </listitem>
+    <listitem>
+      <para>pub/sub notification service can be implemented as Pluggable service in to CloudStack
+        that provides rich API for event notifications (topics based subscription and notification)
+        and deal with multi-tenancy, authentication and authorization issues</para>
+    </listitem>
+  </itemizedlist>
+</section>
