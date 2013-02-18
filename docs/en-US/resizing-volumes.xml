@@ -22,19 +22,19 @@
 <section id="resizing-volumes">
   <title>Resizing Volumes</title>
   <para>&PRODUCT; provides the ability to resize data disks; &PRODUCT; controls volume size by using
-    disk offerings. This provides &PRODUCT; administrators with the flexibility to choose what they
-    want to make available to the end users. Volumes within the disk offerings with the same storage
-    tag can be resized. For example, if you have defined a 5 GB and a 10 GB disk offerings, a user
-    can upgrade from 5 GB to 10 GB. If you have made a custom-sized disk offering available, then
-    you have the option to resize the volume by specifying a new, larger size. Additionally, a data
-    volume can be moved from a static disk offering to a custom disk offering with the size
-    specified. This functionality allows those who might be billing by certain volume sizes or disk
-    offerings to stick to that model, while providing the flexibility to migrate to whatever custom
-    size necessary.</para>
+    disk offerings. This provides &PRODUCT; administrators with the flexibility to choose how much
+    space they want to make available to the end users. Volumes within the disk offerings with the
+    same storage tag can be resized. For example, if you define a 5 GB and a 10 GB disk offerings, a
+    user can upgrade from 5 GB to 10 GB. If you create a custom-sized disk offering, then you have
+    the option to resize the volume by specifying a new, larger size. </para>
+  <para>Additionally, using the resizeVolume API, a data volume can be moved from a static disk
+    offering to a custom disk offering with the size specified. This functionality allows those who
+    might be billing by certain volume sizes or disk offerings to stick to that model, while
+    providing the flexibility to migrate to whatever custom size necessary.</para>
   <para>Before you try to resize a volume, ensure the following:</para>
   <itemizedlist>
     <listitem>
-      <para>The VMs associated with that volume are stopped</para>
+      <para>The VMs associated with the volume are stopped.</para>
     </listitem>
     <listitem>
       <para>The data disks associated with the volume are removed.</para>
@@ -62,7 +62,7 @@
       </inlinemediaobject></para>
     </listitem>
     <listitem>
-      <para>In the Resize Volume popup, choose desired characteristics for the storage.</para> <mediaobject>
+      <para>In the Resize Volume pop-up, choose desired characteristics for the storage.</para> <mediaobject>
         <imageobject>
           <imagedata fileref="./images/resize-volume.png"/>
         </imageobject>
@@ -70,7 +70,7 @@
           <phrase>resize-volume.png: option to resize a volume.</phrase>
         </textobject>
       </mediaobject>
-      <para>Click Shrink OK to shrink the volume.</para>
+      <para>Click Shrink OK to confirm if you are reducing the size of a volume. </para>
     </listitem>
     <listitem>
       <para>Click OK.</para>

@@ -37,5 +37,8 @@
     <listitem>
       <para>addBaremetalHost (Adds a new host.)</para>
     </listitem>
+    <listitem>
+      <para>resizeVolume (Allows to change the size of a volume.)</para>
+    </listitem>
   </itemizedlist>
 </section>
