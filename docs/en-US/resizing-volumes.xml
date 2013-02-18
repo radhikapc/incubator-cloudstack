@@ -11,9 +11,7 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
- 
-   http://www.apache.org/licenses/LICENSE-2.0
- 
+ http://www.apache.org/licenses/LICENSE-2.0
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -21,18 +19,61 @@
  specific language governing permissions and limitations
  under the License.
 -->
-
 <section id="resizing-volumes">
-    <title>Resizing Volumes</title>
-        <para>&PRODUCT; does not provide the ability to resize root disks or data disks; the disk size is fixed based on the template used to create the VM. However, the tool <ulink url="http://vmtoolkit.com/files/folders/converters/entry87.aspx/"> VHD Resizer</ulink>), while not officially supported by Cloud.com or Citrix, might provide a workaround. To increase disk size with VHD Resizer:</para>
-        <orderedlist>
-            <listitem><para>Get the VHD from the secondary storage.</para></listitem>
-            <listitem><para>Import it into VHD Resizer.</para></listitem>
-            <listitem><para>Resize the VHD.</para></listitem>
-            <listitem><para>Upload the new VHD.</para></listitem>
-            <listitem><para>Create a new VM.</para></listitem>
-            <listitem><para>Take a snapshot, then create a new template from that snapshot.</para>
-                <para>For more information, see <ulink url="http://support.citrix.com/article/CTX118608/"> How to Resize a Provisioning Server 5 Virtual Disk </ulink> at the Citrix Knowledge Center </para></listitem>
-        </orderedlist>
+  <title>Resizing Volumes</title>
+  <para>&PRODUCT; provides the ability to resize data disks; &PRODUCT; controls volume size by using
+    disk offerings. This provides &PRODUCT; administrators with the flexibility to choose what they
+    want to make available to the end users. Volumes within the disk offerings with the same storage
+    tag can be resized. For example, if you have defined a 5 GB and a 10 GB disk offerings, a user
+    can upgrade from 5 GB to 10 GB. If you have made a custom-sized disk offering available, then
+    you have the option to resize the volume by specifying a new, larger size. Additionally, a data
+    volume can be moved from a static disk offering to a custom disk offering with the size
+    specified. This functionality allows those who might be billing by certain volume sizes or disk
+    offerings to stick to that model, while providing the flexibility to migrate to whatever custom
+    size necessary.</para>
+  <para>Before you try to resize a volume, ensure the following:</para>
+  <itemizedlist>
+    <listitem>
+      <para>The VMs associated with that volume are stopped</para>
+    </listitem>
+    <listitem>
+      <para>The data disks associated with the volume are removed.</para>
+    </listitem>
+  </itemizedlist>
+  <para>To resize a volume:</para>
+  <orderedlist>
+    <listitem>
+      <para>Log in to the &PRODUCT; UI as a user or admin.</para>
+    </listitem>
+    <listitem>
+      <para>In the left navigation bar, click Storage.</para>
+    </listitem>
+    <listitem>
+      <para>In Select View, choose Volumes.</para>
+    </listitem>
+    <listitem>
+      <para>Click the volume name in the Volumes list, then click the Resize Volume button <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="./images/resize-volume-icon.png"/>
+        </imageobject>
+        <textobject>
+          <phrase>resize-volume-icon.png: button to display the resize volume option.</phrase>
+        </textobject>
+      </inlinemediaobject></para>
+    </listitem>
+    <listitem>
+      <para>In the Resize Volume popup, choose desired characteristics for the storage.</para> <mediaobject>
+        <imageobject>
+          <imagedata fileref="./images/resize-volume.png"/>
+        </imageobject>
+        <textobject>
+          <phrase>resize-volume.png: option to resize a volume.</phrase>
+        </textobject>
+      </mediaobject>
+      <para>Click Shrink OK to shrink the volume.</para>
+    </listitem>
+    <listitem>
+      <para>Click OK.</para>
+    </listitem>
+  </orderedlist>
 </section>
-
