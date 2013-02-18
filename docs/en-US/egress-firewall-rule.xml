@@ -37,8 +37,7 @@
         network CIDR.</para>
     </listitem>
     <listitem>
-      <para>Allow the egress traffic with destination protocol TCP,UDP,ICMP, or all the three
-        protocols.</para>
+      <para>Allow the egress traffic with destination protocol TCP,UDP,ICMP, or ALL.</para>
     </listitem>
     <listitem>
       <para>Allow the egress traffic with destination protocol and port range. The port range is

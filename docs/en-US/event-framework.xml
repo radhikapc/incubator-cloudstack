@@ -22,15 +22,15 @@
 <section id="event-framework">
   <title>Event Notification</title>
   <para>Event notification framework provides a means to publish, and subscribe and unsubscribe to
-    &PRODUCT; events. Event notification is achieved by introducing event bus abstraction in the
-    Management Server. The event bus allows the &PRODUCT;components and extension plug-ins to
-    subscribe to the events by using the Advanced Message Queuing Protocol (AMQP) server. The AMQP
-    server is used as the Message-Oriented Middleware (MOM). Every resource, such as user VMs,
-    volume, NIC, networks, public IPs, snapshots, and template, is associated with a state machine
-    and generates events as part of the state change. So the publishers of events in &PRODUCT; will
-    become that StateListeners associated with the resource. In order for CloudStack be able to
-    generate rich set of events and have clean mechanism to generate events, its important to have
-    state machine associated with every resource that is managed by CloudStack. For example,
+    &PRODUCT; events. Event notification is achieved by introducing the concept of event bus
+    abstraction in the Management Server. The event bus allows the &PRODUCT;components and extension
+    plug-ins to subscribe to the events by using the Advanced Message Queuing Protocol (AMQP)
+    server. The AMQP server acts as the Message-Oriented Middleware (MOM). Every resource, such as
+    user VM, volume, NIC, network, public IP, snapshot, and template, is associated with a state
+    machine and generates events as part of the state change. Therefore, the publishers of events in
+    &PRODUCT; becomes the StateListeners associated with the resource. In order for &PRODUCT; to
+    generate rich set of events and to have a clean mechanism to generate events, it's important to
+    have a state machine associated with every resource that is managed by &PRODUCT;. For example,
     UserVMStateListener which is the listener for the state changes of user VMs would create event
     object and post on to the event bus as below:</para>
   <formalpara>
@@ -39,13 +39,13 @@
   </formalpara>
   <itemizedlist>
     <listitem>
-      <para> Usage or Billing Engines: A thrd 3rd party Cloud Usage solution can implement a plug-in
-        to CloudStack that subscribes to CloudStack events and generates usage data, that is
-        consumed by their usage software</para>
+      <para>Usage or Billing Engines: A third party cloud usage solution can implement a plug-in to
+        &PRODUCT; that subscribes to &PRODUCT; events and generates usage data. The usage data is
+        consumed by their usage software.</para>
     </listitem>
     <listitem>
-      <para>AMQP plugin can put all the events on the a message queue, a AMQP message broker then
-        can provide topic based notification to subscribers</para>
+      <para>AMQP plug-in can place all the events on the a message queue, then a AMQP message broker
+        can provide topic-based notification to the subscribers.</para>
     </listitem>
     <listitem>
       <para>pub/sub notification service can be implemented as Pluggable service in to CloudStack
