@@ -21,25 +21,29 @@
 -->
 <section id="event-framework">
   <title>Event Notification</title>
-  <para>Event notification framework provides a means to publish, and subscribe and unsubscribe to
-    &PRODUCT; events. Event notification is achieved by introducing the concept of event bus
-    abstraction in the Management Server. The event bus allows the &PRODUCT;components and extension
-    plug-ins to subscribe to the events by using the Advanced Message Queuing Protocol (AMQP)
-    server. The AMQP server acts as the Message-Oriented Middleware (MOM). Every resource, such as
-    user VM, volume, NIC, network, public IP, snapshot, and template, is associated with a state
-    machine and generates events as part of the state change. Therefore, the publishers of events in
-    &PRODUCT; becomes the StateListeners associated with the resource. In order for &PRODUCT; to
-    generate rich set of events and to have a clean mechanism to generate events, it's important to
-    have a state machine associated with every resource that is managed by &PRODUCT;. For example,
-    UserVMStateListener which is the listener for the state changes of user VMs would create event
-    object and post on to the event bus as below:</para>
+  <para>Event notification framework provides a means for the Management Server components to
+    publish and subscribe to &PRODUCT; events. Event notification is achieved by implementing the
+    concept of event bus abstraction in the Management Server. An event bus is introduced in the
+    Management Server that allows the &PRODUCT;components and extension plug-ins to subscribe to the
+    events by using the Advanced Message Queuing Protocol (AMQP) server. The AMQP server acts as the
+    Message-Oriented Middleware (MOM). Every resource, such as user VM, volume, NIC, network, public
+    IP, snapshot, and template, is associated with a state machine and generates events as part of
+    the state change. Therefore, the publishers of events in &PRODUCT; becomes the StateListeners
+    associated with the resource. In order for &PRODUCT; to generate a rich set of events and to
+    have a clean mechanism to generate events, it's important to have a state machine associated
+    with every resource that is managed by &PRODUCT;. For example, UserVMStateListener, the listener
+    for the state changes of the user VMs creates event object and post on to the event bus.</para>
+  <para>As part of Event notification framework, a new event for state change is introduced.
+    Resources, such as VMs, volumes, snapshosts, networks, state changes results in a state change
+    event. When the state of a resource changes, a state change event is published in the state
+    machine corresponding to a resource on the event bus.</para>
   <formalpara>
     <title>Use Cases</title>
     <para>The following are some of the use cases:</para>
   </formalpara>
   <itemizedlist>
     <listitem>
-      <para>Usage or Billing Engines: A third party cloud usage solution can implement a plug-in to
+      <para>Usage or Billing Engines: A third-party cloud usage solution can implement a plug-in to
         &PRODUCT; that subscribes to &PRODUCT; events and generates usage data. The usage data is
         consumed by their usage software.</para>
     </listitem>
@@ -48,9 +52,11 @@
         can provide topic-based notification to the subscribers.</para>
     </listitem>
     <listitem>
-      <para>pub/sub notification service can be implemented as Pluggable service in to CloudStack
-        that provides rich API for event notifications (topics based subscription and notification)
-        and deal with multi-tenancy, authentication and authorization issues</para>
+      <para>Publish and Subscribe notification service can be implemented as a pluggable service in
+        &PRODUCT; that provides rich API for event notification, such as topics-based subscription
+        and notification, and deal with multi-tenancy, authentication, and authorization
+        issues.</para>
     </listitem>
   </itemizedlist>
+  <para/>
 </section>
