@@ -25,14 +25,17 @@
     publish and subscribe to &PRODUCT; events. Event notification is achieved by implementing the
     concept of event bus abstraction in the Management Server. An event bus is introduced in the
     Management Server that allows the &PRODUCT;components and extension plug-ins to subscribe to the
-    events by using the Advanced Message Queuing Protocol (AMQP) server. The AMQP server acts as the
-    Message-Oriented Middleware (MOM). Every resource, such as user VM, volume, NIC, network, public
-    IP, snapshot, and template, is associated with a state machine and generates events as part of
-    the state change. Therefore, the publishers of events in &PRODUCT; becomes the StateListeners
-    associated with the resource. In order for &PRODUCT; to generate a rich set of events and to
-    have a clean mechanism to generate events, it's important to have a state machine associated
-    with every resource that is managed by &PRODUCT;. For example, UserVMStateListener, the listener
-    for the state changes of the user VMs creates event object and post on to the event bus.</para>
+    events by using the Advanced Message Queuing Protocol (AMQP) client. A default implementation of
+    event bus is provided as a plug-in in &PRODUCT;that uses the RabbitMQ AMQP client. The AMQP
+    client pushes the published events to a compatible AMQP server. So all the &PRODUCT; events are
+    published to an exchange in the AMQP server. Every resource, such as user VM, volume, NIC,
+    network, public IP, snapshot, and template, is associated with a state machine and generates
+    events as part of the state change. Therefore, the publishers of events in &PRODUCT; becomes the
+    StateListeners associated with the resource. In order for &PRODUCT; to generate a rich set of
+    events and to have a clean mechanism to generate events, it's important to have a state machine
+    associated with every resource that is managed by &PRODUCT;. For example, UserVMStateListener,
+    the listener for the state changes of the user VMs creates event object and post on to the event
+    bus.</para>
   <para>As part of Event notification framework, a new event for state change is introduced.
     Resources, such as VMs, volumes, snapshosts, networks, state changes results in a state change
     event. When the state of a resource changes, a state change event is published in the state
@@ -58,5 +61,7 @@
         issues.</para>
     </listitem>
   </itemizedlist>
-  <para/>
+  <para>As a &PRODUCT; administrator, you need to perform a one-time configuration to enable event
+    notification framework. You need to make necessary changes to the componentContext.xml, then
+    restart the Management Server. At run time no changes can control the behaviour.</para>
 </section>
